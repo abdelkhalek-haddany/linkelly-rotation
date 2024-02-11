@@ -5,9 +5,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Torann\GeoIP\Facades\GeoIP;
 use Jenssegers\Agent\Agent;
 use Stevebauman\Location\Facades\Location;
+use Torann\GeoIP\Facades\GeoIP;
 
 class UserInformationMiddleware
 {
@@ -16,16 +16,16 @@ class UserInformationMiddleware
         $userAgent = $request->header('User-Agent');
         $agent = new Agent();
         $ipAddress = $request->ip();
-
-        // Get location information
-        $location = Location::get($ipAddress);
+        $location = GeoIP::getLocation($ipAddress);
 
         // Store information in session, you can modify this to store in a database
         session([
             'user_information' => [
                 'ip_address' => $request->ip(),
-                'country' => $location,
-                'city' => $location,
+                'country' => $location->country,
+                'city' => $location->city,
+                'latitude' => $location->lat,
+                'longitude' => $location->lon,
                 'browser' => $agent->browser(),
                 'browser_version' => $agent->version($agent->browser()),
                 'device' => $agent->device(),

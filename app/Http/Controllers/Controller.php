@@ -53,16 +53,18 @@ class Controller extends BaseController
             // Find the destination based on the random number
             $currentPercentage = 0;
 
+
             foreach ($destinations as $destination) {
                 $currentPercentage += $destination->percentage;
                 if ($randomNumber <= $currentPercentage) {
-
                     $stats = new Stats();
-                    // $stats->country = $userInfo->country;
-                    // $stats->city = $userInfo->city;
+                    $stats->country = $userInfo['country'];
+                    $stats->city = $userInfo['city'];
+                    $stats->latitude = $userInfo['latitude'];
+                    $stats->longitude = $userInfo['longitude'];
                     $stats->browser = $userInfo['browser'];
                     $stats->browser_version = $userInfo['browser_version'];
-                    // $stats->device = $userInfo['device'];
+                    $stats->device = $userInfo['device'];
                     $stats->platform = $userInfo['platform'];
                     $stats->is_mobile = $userInfo['is_mobile'];
                     $stats->is_tablet = $userInfo['is_tablet'];
